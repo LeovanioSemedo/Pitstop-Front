@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "PitStop-AutoScan",
+    "slug": "pitStop",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/Full logo - blue.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/Full logo - blue.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#022B30"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/PITSTOP  Car.png",
+        "backgroundColor": "#022B30"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/PITSTOP  Car.png"
+    }
+  }
+}
