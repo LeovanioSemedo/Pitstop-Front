@@ -26,7 +26,7 @@ interface CroqResponse {
   };
 }
 
-const CROQ_API_KEY = "process.env.GROQ_API_KEY";
+const CROQ_API_KEY = "YOUR_CROQ_API_KEY_HERE";
 const CROQ_ENDPOINT = "";
 
 /**
@@ -47,23 +47,24 @@ export async function callCroqAPI(
     // Mensagem do sistema: define o comportamento da IA
     const systemMessage: Message = {
       role: "system",
-      content: `Você é um assistente angolano sofisticado, com forte conhecimento em automóveis e manutenção veicular, dentro do ecossistema PitStop.
+      content: `Você é um assistente inteligente especializado em automóveis e manutenção veicular, integrado ao app PitStop de Angola.
 
-O teu foco principal é em:
-- automóveis, diagnóstico, manutenção, motor, pneus, freios, combustível e segurança veicular
-- recomendações práticas para condições do dia-a-dia em Angola
+Sua expertise abrange:
+- Diagnóstico e manutenção de veículos (motor, freios, suspensão, transmissão, elétrica, etc.)
+- Dicas práticas de condução segura e econômica
+- Explicações sobre componentes automotivos e funcionamento
+- Recomendações para cuidados diários com o carro
+- Informações sobre legislação de trânsito angolana
+- Soluções para problemas comuns de mobilidade urbana
 
-Mas podes responder também a perguntas adjacentes relacionadas a mobilidade, transporte e cuidados com veículos.
+Sempre forneça respostas curtas, diretas e práticas. Foque em soluções acionáveis e evite respostas longas ou genéricas. E considere o contexto local de Angola para suas respostas.
 
-Se a pergunta não tiver relação direta com carros, responde de forma educada e sugere trazer um tema automóvel para ajudar melhor.
+Se a pergunta não for sobre automóveis, responda de forma breve e redirecione educadamente para temas relacionados a veículos.
 
-Procura ser:
-- claro, responsável e útil
-- preferencialmente conciso, mas completo quando necessário
-- profissional e amigável
-
-Exemplo de resposta:
-Para diagnosticar problemas de óleo, confirma o nível, vê o estado da vareta e usa óleo recomendado pelo manual do veículo. Se houver consumo anormal, verifica juntas e vedações.`,
+Exemplos de respostas:
+- "Para calibrar pneus, use uma bomba calibradora e mantenha 32-35 PSI. Verifique mensalmente."
+- "Ruído nos freios indica desgaste das pastilhas. Leve a uma oficina para inspeção."
+- "Consumo alto de combustível pode ser por pneus murchos ou filtro de ar sujo. Verifique primeiro os pneus."`,
     };
 
     // Constrói o histórico de conversa
@@ -77,9 +78,9 @@ Para diagnosticar problemas de óleo, confirma o nível, vê o estado da vareta 
     const payload = {
       model: "llama-3.3-70b-versatile", // ✅ Modelo PRODUCTION ativo do Groq (confirmado na documentação oficial)
       messages,
-      temperature: 0.7, // Criativo mas coerente
-      max_tokens: 300, // Respostas curtas
-      top_p: 0.95,
+      temperature: 0.5, // Menos criativo para respostas mais diretas
+      max_tokens: 200, // Respostas ainda mais curtas
+      top_p: 0.9,
     };
 
     // Faz a requesição
@@ -128,26 +129,7 @@ Para diagnosticar problemas de óleo, confirma o nível, vê o estado da vareta 
  * Valida se a pergunta é sobre automóveis
  */
 export function isCarRelated(text: string): boolean {
-  const keywords = [
-    "carro", "automóvel", "automovel", "veículo", "veiculo", "moto", "motocicleta",
-    "motor", "engine", "combustível", "combustivel", "gasolina", "diesel", "etanol", "consumo", "câmbio", "cambio",
-    "freio", "freios", "breque", "pastilha", "disco", "pneu", "pneus", "calibrador", "rodão", "borracha",
-    "embreagem", "mudança", "marcha", "transmissão", "transmissao", "mudanca", "direção", "direcao", "volante",
-    "óleo", "oleo", "lubrificante", "bateria", "alternador", "manutenção", "manutencao", "revisão", "revisao",
-    "serviço", "servico", "oficina", "suspensão", "suspensao", "amortecedor", "mola", "radiador", "refrigeração", "refrigeracao", "arrefecimento",
-    "airbag", "cinto", "abs", "ebd", "filtro", "velas", "correia", "turbo", "compressor", "escapamento", "escape",
-    // termos adjacentes para maior alcance
-    "mobilidade", "transporte", "estrada", "viagem", "trânsito", "segurança", "leilão", "seguro",
-  ];
-
-  const lower = text.toLowerCase();
-
-  // Amplo fallback: se não encontra keywords mas contexto tem algo próximo de veículo, não bloqueia
-  const matches = keywords.some((kw) => lower.includes(kw));
-  if (matches) return true;
-
-  // Se a mensagem for curta e não específica, considera que pode ser legítima e deixa passar
-  if (text.trim().length < 40) return true;
-
-  return false;
+  // Removido validação por keywords para dar mais liberdade à IA
+  // Agora a IA decide sozinha se responde ou não baseado no prompt
+  return true;
 }
